@@ -31,10 +31,18 @@ function operate(a, b, operate){
     return result;
 }
 
-function getDisplay(){
-    return document.getElementById("calculator-display");
+function getDisplayTextElement(){
+    return document.getElementById("calculator-display-text");
 }
 
 function updateDisplay(newValue){
-    getDisplay().innerText = newValue;
+    getDisplayTextElement().innerText = newValue;
 }
+
+function buttonClick(e){
+   updateDisplay(e.target.innerText);
+}
+
+
+const calculatorBody = document.getElementById("calculator-button-body");
+calculatorBody.addEventListener("click", buttonClick);
