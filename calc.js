@@ -30,3 +30,11 @@ function operate(a, b, operate){
     }
     return result;
 }
+
+function getDisplay(){
+    return document.getElementById("calculator-display");
+}
+
+function updateDisplay(newValue){
+    getDisplay().innerText = newValue;
+}
