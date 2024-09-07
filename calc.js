@@ -1,4 +1,4 @@
-let callStack = ["0"];
+let callStack = [""];
 const OPERATIONS = ["+", "-", "*", "/"];
 function add(a, b){
     return a + b;
@@ -44,6 +44,7 @@ function updateDisplay(newValue){
 }
 
 function buttonClick(e){
+    if (e.target === document.getElementById('calculator-button-body')) return;
     const buttonValue = e.target.innerText;
     if (OPERATIONS.includes(buttonValue)){
         callStack.push(buttonValue, "");
@@ -53,12 +54,13 @@ function buttonClick(e){
     if(buttonValue === "="){
         if (callStack.length < 3) return;
         let [strA, strB, operation] = [callStack[0], callStack[2], callStack[1]]
-        const result = operate(strA, strB, operation);
+        const result = operate(strA, strB, operation).toString();
         updateDisplay(result);
         callStack = [result];
         return;
     }
     callStack[callStack.length-1] = callStack[callStack.length-1].concat(buttonValue);
+    updateDisplay(callStack[callStack.length-1])
     console.log(callStack);
  }
 
