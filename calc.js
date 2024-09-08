@@ -18,10 +18,10 @@ function operate(strA, strB, operation){
     let result = 0;
     switch(operation){
         case "+":
-            result =add(a, b);
+            result = add(a, b);
             break;
         case "-":
-            result =subtract(a,b);
+            result = subtract(a,b);
             break;
         case "*":
             result = multiply(a, b);
@@ -80,6 +80,5 @@ function buttonClick(e){
         console.log(callStack);
     }
  }
-
 const calculatorBody = document.getElementById("calculator-button-body");
 calculatorBody.addEventListener("click", buttonClick);
