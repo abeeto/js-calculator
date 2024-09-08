@@ -69,8 +69,14 @@ function buttonClick(e){
         updateDisplay("0");
     }
     else{
-        callStack[callStack.length-1] = callStack[callStack.length-1].concat(buttonValue);
-        updateDisplay(callStack[callStack.length-1])
+        let lastItem = callStack[callStack.length-1];
+        if (lastItem === "0") {
+            lastItem = "";
+        }
+        lastItem = lastItem.concat(buttonValue);
+        updateDisplay(lastItem);
+        
+        callStack[callStack.length-1] = lastItem;
         console.log(callStack);
     }
  }
