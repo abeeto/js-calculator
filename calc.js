@@ -13,8 +13,8 @@ function divide(a, b){
     return a / b;
 }
 function operate(strA, strB, operation){
-    let a = parseInt(strA);
-    let b = parseInt(strB);
+    let a = parseFloat(strA);
+    let b = parseFloat(strB);
     let result = 0;
     switch(operation){
         case "+":
@@ -32,7 +32,7 @@ function operate(strA, strB, operation){
         default:
             result = "OOPS!";
     }
-    return result;
+    return result.toFixed(4).replace(/\.?0+$/, "");
 }
 
 function getDisplayTextElement(){
@@ -60,6 +60,16 @@ function buttonClick(e){
         const result = operate(strA, strB, operation).toString();
         updateDisplay(result);
         callStack = [result];
+    }
+    else if(buttonValue === "+/-"){
+        const lastItem = callStack[callStack.length-1];
+        if(lastItem === "0") return;
+        if(lastItem.slice(0, 1) !== "-"){
+            callStack[callStack.length - 1] = "-" + lastItem;
+        }else{
+            callStack[callStack.length - 1] = lastItem.slice(1);
+        }
+        updateDisplay(callStack[callStack.length-1])
     }
     else if(buttonValue === "DEL"){
         let currentItem = callStack[callStack.length - 1];
