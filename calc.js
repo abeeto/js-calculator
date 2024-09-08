@@ -47,6 +47,9 @@ function buttonClick(e){
     if (e.target === document.getElementById('calculator-button-body') || e.target.className === "calculator-button-row") return;
     const buttonValue = e.target.innerText;
     if (OPERATIONS.includes(buttonValue)){
+        if(callStack[callStack.length-1] === ""){
+            callStack.splice(1, 2);
+        }
         callStack.push(buttonValue, "");
         console.log(callStack);
         return;
@@ -65,12 +68,12 @@ function buttonClick(e){
         updateDisplay(currentItem);
     }
     else if(buttonValue === "AC"){
-        callStack = [""]
+        callStack = [""];
         updateDisplay("0");
     }
     else{
         let lastItem = callStack[callStack.length-1];
-        if (lastItem === "0") {
+        if (lastItem === "0" || OPERATIONS.includes(lastItem)) {
             lastItem = "";
         }
         lastItem = lastItem.concat(buttonValue);
