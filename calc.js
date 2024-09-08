@@ -44,24 +44,35 @@ function updateDisplay(newValue){
 }
 
 function buttonClick(e){
-    if (e.target === document.getElementById('calculator-button-body')) return;
+    if (e.target === document.getElementById('calculator-button-body') || e.target.className === "calculator-button-row") return;
     const buttonValue = e.target.innerText;
     if (OPERATIONS.includes(buttonValue)){
         callStack.push(buttonValue, "");
         console.log(callStack);
         return;
     }
-    if(buttonValue === "="){
+    else if(buttonValue === "="){
         if (callStack.length < 3) return;
         let [strA, strB, operation] = [callStack[0], callStack[2], callStack[1]]
         const result = operate(strA, strB, operation).toString();
         updateDisplay(result);
         callStack = [result];
-        return;
     }
-    callStack[callStack.length-1] = callStack[callStack.length-1].concat(buttonValue);
-    updateDisplay(callStack[callStack.length-1])
-    console.log(callStack);
+    else if(buttonValue === "DEL"){
+        let currentItem = callStack[callStack.length - 1];
+        currentItem  = currentItem.slice(0, -1);
+        callStack[callStack.length -1] = currentItem;
+        updateDisplay(currentItem);
+    }
+    else if(buttonValue === "AC"){
+        callStack = [""]
+        updateDisplay("0");
+    }
+    else{
+        callStack[callStack.length-1] = callStack[callStack.length-1].concat(buttonValue);
+        updateDisplay(callStack[callStack.length-1])
+        console.log(callStack);
+    }
  }
 
 const calculatorBody = document.getElementById("calculator-button-body");

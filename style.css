@@ -43,6 +43,10 @@
     font-size: 1.2em;
     border-radius: 4px;
 }
+.calculator-button:active{
+    background-color: rgb(211, 205, 205);
+}
+
 #last-button-row .calculator-button:last-child{
     flex: 1;
 }
