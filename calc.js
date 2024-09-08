@@ -60,7 +60,7 @@ function buttonClick(e){
     }
     else if(buttonValue === "DEL"){
         let currentItem = callStack[callStack.length - 1];
-        currentItem  = currentItem.slice(0, -1);
+        currentItem  = currentItem.length > 1 ? currentItem.slice(0, -1) : "0";
         callStack[callStack.length -1] = currentItem;
         updateDisplay(currentItem);
     }
