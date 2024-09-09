@@ -48,7 +48,7 @@ function doesDisplayHaveDec(){
 }
 function decideOnDecimal(decimalAlready){
     if(!decimalAlready){
-        updateDisplay(concatLastItem("."));
+        updateDisplay(concatCurrentItem("."));
     }
 }
 function calculateAndUpdate(){
@@ -57,15 +57,15 @@ function calculateAndUpdate(){
     updateDisplay(result);
     callStack = [result];
  }
- function concatLastItem(strToConcat){
-    let lastItem = callStack[callStack.length-1];
-    if ((lastItem === "0" && strToConcat !== ".") || (lastItem !== "-" && OPERATIONS.includes(lastItem))) {
-        lastItem = "";
+ function concatCurrentItem(strToConcat){
+    let currentItem = callStack[callStack.length-1];
+    if ((currentItem === "0" && strToConcat !== ".") || (currentItem !== "-" && OPERATIONS.includes(currentItem))) {
+        currentItem = "";
     }
-    lastItem = lastItem.concat(strToConcat);
-    callStack[callStack.length-1] = lastItem;
+    currentItem = currentItem.concat(strToConcat);
+    callStack[callStack.length-1] = currentItem;
     console.log(callStack);
-    return lastItem;
+    return currentItem;
  }
 function handleDeletePress(){
     let currentItem = callStack[callStack.length - 1];
@@ -90,8 +90,7 @@ function handleDeletePress(){
 }
 function changeSignOfCurrentItem(){
     const currentItem = callStack[callStack.length-1];
-        if(currentItem === "0") return;
-        if(currentItem === ""){
+        if(currentItem === "" || currentItem === "0"){
             callStack[callStack.length - 1] = "-";
         }
         else if(currentItem === "-"){
@@ -130,7 +129,7 @@ function buttonClick(e){
         updateDisplay("0");
     }
     else{
-        updateDisplay(concatLastItem(buttonValue));
+        updateDisplay(concatCurrentItem(buttonValue));
     }
  }
 
