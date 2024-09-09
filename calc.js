@@ -1,4 +1,4 @@
-let callStack = [""];
+let callStack = ["0"];
 const OPERATIONS = ["+", "-", "*", "/"];
 function add(a, b){
     return a + b;
@@ -98,7 +98,7 @@ function buttonClick(e){
         updateDisplay(currentItem);
     }
     else if(buttonValue === "AC"){
-        callStack = [""];
+        callStack = ["0"];
         updateDisplay("0");
     }
     else{
@@ -107,7 +107,8 @@ function buttonClick(e){
  }
  function concatLastItem(strToConcat){
     let lastItem = callStack[callStack.length-1];
-    if (lastItem === "0" || OPERATIONS.includes(lastItem)) {
+    console.log("hi.")
+    if ((lastItem === "0" && strToConcat !== ".") || OPERATIONS.includes(lastItem)) {
         lastItem = "";
     }
     lastItem = lastItem.concat(strToConcat);
