@@ -46,7 +46,7 @@ function doesDisplayHaveDec(){
     let currentValue = getDisplayTextElement().innerText.split("");
     return (currentValue.includes("."));
 }
-function decideOnDecimal(decimalAlready){
+function placeDecimal(decimalAlready){
     if(!decimalAlready){
         updateDisplay(concatCurrentItem("."));
     }
@@ -110,7 +110,7 @@ function buttonClick(e){
     }
     else if(buttonValue === "."){
         const decimalAlready = doesDisplayHaveDec();
-        decideOnDecimal(decimalAlready);
+        placeDecimal(decimalAlready);
     }
     else if(buttonValue === "="){
         if (callStack.length < 3) return;
