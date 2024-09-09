@@ -51,7 +51,36 @@ function decideOnDecimal(decimalAlready){
         updateDisplay(concatLastItem("."));
     }
 }
-
+function calculateAndUpdate(){
+    let [strA, strB, operation] = [callStack[0], callStack[2], callStack[1]]
+    const result = operate(strA, strB, operation).toString();
+    updateDisplay(result);
+    callStack = [result];
+ }
+ function concatLastItem(strToConcat){
+    let lastItem = callStack[callStack.length-1];
+    console.log("hi.")
+    if ((lastItem === "0" && strToConcat !== ".") || OPERATIONS.includes(lastItem)) {
+        lastItem = "";
+    }
+    lastItem = lastItem.concat(strToConcat);
+    callStack[callStack.length-1] = lastItem;
+    console.log(callStack);
+    return lastItem;
+ }
+function deleteValueInStack(){
+    let currentItem = callStack[callStack.length - 1];
+    if(currentItem.length > 1){
+        currentItem = currentItem.slice(0, -1);
+    }else if((currentItem === "" || currentItem === "0") && OPERATIONS.includes(callStack[callStack.length-2])){
+        callStack.splice(1, 2);
+        currentItem = callStack[0];
+    }else{
+        currentItem = "0";
+    }
+    callStack[callStack.length -1] = currentItem;
+    updateDisplay(currentItem);
+ }
 function buttonClick(e){
     if (e.target === document.getElementById('calculator-button-body') || e.target.className === "calculator-button-row") return;
     const buttonValue = e.target.innerText;
@@ -83,18 +112,7 @@ function buttonClick(e){
         updateDisplay(callStack[callStack.length-1])
     }
     else if(buttonValue === "DEL"){
-        let currentItem = callStack[callStack.length - 1];
-        if(currentItem.length > 1){
-            currentItem = currentItem.slice(0, -1);
-        }else if((currentItem === "" || currentItem === "0") && OPERATIONS.includes(callStack[callStack.length-2])){
-            callStack.splice(1, 2);
-            console.log(callStack);
-            currentItem = callStack[0];
-        }else{
-            currentItem = "0";
-        }
-        callStack[callStack.length -1] = currentItem;
-        updateDisplay(currentItem);
+        deleteValueInStack();
     }
     else if(buttonValue === "AC"){
         callStack = ["0"];
@@ -104,22 +122,6 @@ function buttonClick(e){
         updateDisplay(concatLastItem(buttonValue));
     }
  }
- function calculateAndUpdate(){
-    let [strA, strB, operation] = [callStack[0], callStack[2], callStack[1]]
-    const result = operate(strA, strB, operation).toString();
-    updateDisplay(result);
-    callStack = [result];
- }
- function concatLastItem(strToConcat){
-    let lastItem = callStack[callStack.length-1];
-    console.log("hi.")
-    if ((lastItem === "0" && strToConcat !== ".") || OPERATIONS.includes(lastItem)) {
-        lastItem = "";
-    }
-    lastItem = lastItem.concat(strToConcat);
-    callStack[callStack.length-1] = lastItem;
-    console.log(callStack);
-    return lastItem;
- }
+
 const calculatorBody = document.getElementById("calculator-button-body");
 calculatorBody.addEventListener("click", buttonClick);
