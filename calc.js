@@ -64,7 +64,6 @@ function calculateAndUpdate(){
     }
     currentItem = currentItem.concat(strToConcat);
     callStack[callStack.length-1] = currentItem;
-    console.log(callStack);
     return currentItem;
  }
 function handleDeletePress(){
@@ -101,7 +100,6 @@ function changeSignOfCurrentItem(){
         else{
             callStack[callStack.length - 1] = currentItem.slice(1);
         }
-        console.log(callStack);
         updateDisplay(callStack[callStack.length-1])
 }
 function buttonClick(e){
