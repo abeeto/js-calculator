@@ -46,11 +46,8 @@ function doesDisplayHaveDec(){
     let currentValue = getDisplayTextElement().innerText.split("");
     return (currentValue.includes("."));
 }
-function toggleDecButton(toDisable){
-    if(toDisable){
-        return;
-    }
-    else{
+function decideOnDecimal(decimalAlready){
+    if(!decimalAlready){
         updateDisplay(concatLastItem("."));
     }
 }
@@ -66,9 +63,8 @@ function buttonClick(e){
         console.log(callStack);
     }
     else if(buttonValue === "."){
-        console.log('hi.');
-        const toDisable = doesDisplayHaveDec();
-        toggleDecButton(toDisable);
+        const decimalAlready = doesDisplayHaveDec();
+        decideOnDecimal(decimalAlready);
     }
     else if(buttonValue === "="){
         if (callStack.length < 3) return;
@@ -92,7 +88,6 @@ function buttonClick(e){
         if(currentItem.length > 1){
             currentItem = currentItem.slice(0, -1);
         }else if((currentItem === "" || currentItem === "0") && OPERATIONS.includes(callStack[callStack.length-2])){
-            console.log('hi.');
             callStack.splice(1, 2);
             console.log(callStack);
             currentItem = callStack[0];
