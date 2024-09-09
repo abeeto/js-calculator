@@ -42,6 +42,18 @@ function getDisplayTextElement(){
 function updateDisplay(newValue){
     getDisplayTextElement().innerText = newValue;
 }
+function doesDisplayHaveDec(){
+    let currentValue = getDisplayTextElement().innerText.split("");
+    return (currentValue.includes("."));
+}
+function toggleDecButton(toDisable){
+    if(toDisable){
+        return;
+    }
+    else{
+        updateDisplay(concatLastItem("."));
+    }
+}
 
 function buttonClick(e){
     if (e.target === document.getElementById('calculator-button-body') || e.target.className === "calculator-button-row") return;
@@ -52,7 +64,11 @@ function buttonClick(e){
         }
         callStack.push(buttonValue, "");
         console.log(callStack);
-        return;
+    }
+    else if(buttonValue === "."){
+        console.log('hi.');
+        const toDisable = doesDisplayHaveDec();
+        toggleDecButton(toDisable);
     }
     else if(buttonValue === "="){
         if (callStack.length < 3) return;
@@ -73,7 +89,16 @@ function buttonClick(e){
     }
     else if(buttonValue === "DEL"){
         let currentItem = callStack[callStack.length - 1];
-        currentItem  = currentItem.length > 1 ? currentItem.slice(0, -1) : "0";
+        if(currentItem.length > 1){
+            currentItem = currentItem.slice(0, -1);
+        }else if((currentItem === "" || currentItem === "0") && OPERATIONS.includes(callStack[callStack.length-2])){
+            console.log('hi.');
+            callStack.splice(1, 2);
+            console.log(callStack);
+            currentItem = callStack[0];
+        }else{
+            currentItem = "0";
+        }
         callStack[callStack.length -1] = currentItem;
         updateDisplay(currentItem);
     }
@@ -82,16 +107,18 @@ function buttonClick(e){
         updateDisplay("0");
     }
     else{
-        let lastItem = callStack[callStack.length-1];
-        if (lastItem === "0" || OPERATIONS.includes(lastItem)) {
-            lastItem = "";
-        }
-        lastItem = lastItem.concat(buttonValue);
-        updateDisplay(lastItem);
-        
-        callStack[callStack.length-1] = lastItem;
-        console.log(callStack);
+        updateDisplay(concatLastItem(buttonValue));
     }
+ }
+ function concatLastItem(strToConcat){
+    let lastItem = callStack[callStack.length-1];
+    if (lastItem === "0" || OPERATIONS.includes(lastItem)) {
+        lastItem = "";
+    }
+    lastItem = lastItem.concat(strToConcat);
+    callStack[callStack.length-1] = lastItem;
+    console.log(callStack);
+    return lastItem;
  }
 const calculatorBody = document.getElementById("calculator-button-body");
 calculatorBody.addEventListener("click", buttonClick);
