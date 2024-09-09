@@ -68,7 +68,7 @@ function calculateAndUpdate(){
     console.log(callStack);
     return lastItem;
  }
-function deleteValueInStack(){
+function handleDeletePress(){
     let currentItem = callStack[callStack.length - 1];
     if(currentItem.length > 1){
         currentItem = currentItem.slice(0, -1);
@@ -81,17 +81,19 @@ function deleteValueInStack(){
     callStack[callStack.length -1] = currentItem;
     updateDisplay(currentItem);
  }
+ function handleOperationPress(buttonValue){
+    if(callStack[callStack.length-1] === ""){
+        callStack.splice(1, 2);
+    }else if(callStack.length === 3){
+        calculateAndUpdate();
+    }
+    callStack.push(buttonValue, "");
+}
 function buttonClick(e){
     if (e.target === document.getElementById('calculator-button-body') || e.target.className === "calculator-button-row") return;
     const buttonValue = e.target.innerText;
     if (OPERATIONS.includes(buttonValue)){
-        if(callStack[callStack.length-1] === ""){
-            callStack.splice(1, 2);
-        }else if(callStack.length === 3){
-            calculateAndUpdate();
-        }
-        callStack.push(buttonValue, "");
-        console.log(callStack);
+        handleOperationPress(buttonValue);
     }
     else if(buttonValue === "."){
         const decimalAlready = doesDisplayHaveDec();
@@ -112,7 +114,7 @@ function buttonClick(e){
         updateDisplay(callStack[callStack.length-1])
     }
     else if(buttonValue === "DEL"){
-        deleteValueInStack();
+        handleDeletePress();
     }
     else if(buttonValue === "AC"){
         callStack = ["0"];
