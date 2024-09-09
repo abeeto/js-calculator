@@ -59,8 +59,7 @@ function calculateAndUpdate(){
  }
  function concatLastItem(strToConcat){
     let lastItem = callStack[callStack.length-1];
-    console.log("hi.")
-    if ((lastItem === "0" && strToConcat !== ".") || OPERATIONS.includes(lastItem)) {
+    if ((lastItem === "0" && strToConcat !== ".") || (lastItem !== "-" && OPERATIONS.includes(lastItem))) {
         lastItem = "";
     }
     lastItem = lastItem.concat(strToConcat);
@@ -89,6 +88,23 @@ function handleDeletePress(){
     }
     callStack.push(buttonValue, "");
 }
+function changeSignOfCurrentItem(){
+    const currentItem = callStack[callStack.length-1];
+        if(currentItem === "0") return;
+        if(currentItem === ""){
+            callStack[callStack.length - 1] = "-";
+        }
+        else if(currentItem === "-"){
+            callStack[callStack.length - 1] = "";
+        }else if(currentItem.slice(0, 1) !== "-"){
+            callStack[callStack.length - 1] = "-" + currentItem;
+        }
+        else{
+            callStack[callStack.length - 1] = currentItem.slice(1);
+        }
+        console.log(callStack);
+        updateDisplay(callStack[callStack.length-1])
+}
 function buttonClick(e){
     if (e.target === document.getElementById('calculator-button-body') || e.target.className === "calculator-button-row") return;
     const buttonValue = e.target.innerText;
@@ -104,14 +120,7 @@ function buttonClick(e){
         calculateAndUpdate();
     }
     else if(buttonValue === "+/-"){
-        const lastItem = callStack[callStack.length-1];
-        if(lastItem === "0") return;
-        if(lastItem.slice(0, 1) !== "-"){
-            callStack[callStack.length - 1] = "-" + lastItem;
-        }else{
-            callStack[callStack.length - 1] = lastItem.slice(1);
-        }
-        updateDisplay(callStack[callStack.length-1])
+        changeSignOfCurrentItem();
     }
     else if(buttonValue === "DEL"){
         handleDeletePress();
