@@ -58,6 +58,8 @@ function buttonClick(e){
     if (OPERATIONS.includes(buttonValue)){
         if(callStack[callStack.length-1] === ""){
             callStack.splice(1, 2);
+        }else if(callStack.length === 3){
+            calculateAndUpdate();
         }
         callStack.push(buttonValue, "");
         console.log(callStack);
@@ -68,10 +70,7 @@ function buttonClick(e){
     }
     else if(buttonValue === "="){
         if (callStack.length < 3) return;
-        let [strA, strB, operation] = [callStack[0], callStack[2], callStack[1]]
-        const result = operate(strA, strB, operation).toString();
-        updateDisplay(result);
-        callStack = [result];
+        calculateAndUpdate();
     }
     else if(buttonValue === "+/-"){
         const lastItem = callStack[callStack.length-1];
@@ -104,6 +103,12 @@ function buttonClick(e){
     else{
         updateDisplay(concatLastItem(buttonValue));
     }
+ }
+ function calculateAndUpdate(){
+    let [strA, strB, operation] = [callStack[0], callStack[2], callStack[1]]
+    const result = operate(strA, strB, operation).toString();
+    updateDisplay(result);
+    callStack = [result];
  }
  function concatLastItem(strToConcat){
     let lastItem = callStack[callStack.length-1];
